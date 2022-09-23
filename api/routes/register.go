@@ -7,6 +7,7 @@ import (
 	"github.com/rlarkin212/wumpdump/api/routes/drop"
 	"github.com/rlarkin212/wumpdump/api/routes/health"
 	"github.com/rlarkin212/wumpdump/api/routes/insert"
+	"github.com/rlarkin212/wumpdump/api/routes/tables"
 	"github.com/rlarkin212/wumpdump/discord"
 )
 
@@ -19,7 +20,7 @@ func register(rg *gin.RouterGroup, bot *discord.Bot) {
 	insert := insert.New(bot)
 	health := health.New()
 
-	// tables := tables.New(bot)
+	tables := tables.New(bot)
 	create := create.New(bot)
 	drop := drop.New(bot)
 
@@ -28,7 +29,7 @@ func register(rg *gin.RouterGroup, bot *discord.Bot) {
 	rg.GET("/health", health.Health)
 
 	//!table routes
-	// rg.GET("/tables", tables.Tables)
+	rg.GET("/tables", tables.Tables)
 	rg.POST("/create", create.Create)
 	rg.DELETE("/drop", drop.Drop)
 }
