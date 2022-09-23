@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/rlarkin212/wumpdump/api/routes/create"
 	"github.com/rlarkin212/wumpdump/api/routes/health"
 	"github.com/rlarkin212/wumpdump/api/routes/insert"
 	"github.com/rlarkin212/wumpdump/discord"
@@ -18,7 +19,7 @@ func register(rg *gin.RouterGroup, bot *discord.Bot) {
 	health := health.New()
 
 	// tables := tables.New(bot)
-	// create := create.New(bot)
+	create := create.New(bot)
 	// drop := drop.New(bot)
 
 	//!data routes
@@ -27,6 +28,6 @@ func register(rg *gin.RouterGroup, bot *discord.Bot) {
 
 	//!table routes
 	// rg.GET("/tables", tables.Tables)
-	// rg.POST("/create", create.Create)
+	rg.POST("/create", create.Create)
 	// rg.DELETE("/drop", drop.Drop)
 }

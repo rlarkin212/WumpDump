@@ -21,6 +21,7 @@ func Init(config *config.Config) *Bot {
 
 	discord := &Bot{
 		Discord: dg,
+		Config:  config,
 	}
 
 	return discord
