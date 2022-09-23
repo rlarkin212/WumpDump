@@ -1,0 +1,10 @@
+{
+  version : "v1",
+  api : {
+    port : "5000"
+  },
+  discord : {
+    guildId : "${GUILD_ID}",
+    token: "${TOKEN}"
+  }
+}
