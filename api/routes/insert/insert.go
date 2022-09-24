@@ -19,9 +19,7 @@ func New(bot *discord.Bot) *insertHandler {
 }
 
 func (h *insertHandler) Insert(c *gin.Context) {
-	params := c.Request.URL.Query()
-
-	channelId := params.Get("cid")
+	channelId := c.Param("id")
 	if channelId == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "supply channel id",

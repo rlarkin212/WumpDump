@@ -1,4 +1,4 @@
-package create
+package alter
 
 import (
 	"net/http"
@@ -9,33 +9,39 @@ import (
 	"github.com/rlarkin212/wumpdump/entity/dto"
 )
 
-type createHandler struct {
+type alterHandler struct {
 	bot *discord.Bot
 }
 
-func New(bot *discord.Bot) *createHandler {
-	return &createHandler{
+func New(bot *discord.Bot) *alterHandler {
+	return &alterHandler{
 		bot: bot,
 	}
 }
 
-func (h *createHandler) Create(c *gin.Context) {
-	var input dto.Table
+func (h *alterHandler) Alter(c *gin.Context) {
+	channelId := c.Param("id")
+	if channelId == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "supply channel id",
+		})
+	}
 
+	var input dto.Table
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 	}
 
-	channel, err := h.bot.Discord.GuildChannelCreate(h.bot.Config.Discord.GuildId, input.Name, discordgo.ChannelTypeGuildText)
+	channel, err := h.bot.Discord.ChannelEdit(channelId, &discordgo.ChannelEdit{Name: input.Name})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"id":    channel.ID,
 		"table": channel.Name,
 	})

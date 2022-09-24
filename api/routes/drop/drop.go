@@ -18,9 +18,7 @@ func New(bot *discord.Bot) *dropHandler {
 }
 
 func (h *dropHandler) Drop(c *gin.Context) {
-	params := c.Request.URL.Query()
-
-	channelId := params.Get("cid")
+	channelId := c.Param("id")
 	if channelId == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "supply channel id",
