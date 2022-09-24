@@ -26,6 +26,8 @@ func (h *createHandler) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	channel, err := h.bot.Discord.GuildChannelCreate(h.bot.Config.Discord.GuildId, input.Name, discordgo.ChannelTypeGuildText)
@@ -33,6 +35,8 @@ func (h *createHandler) Create(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{

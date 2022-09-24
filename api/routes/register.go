@@ -5,6 +5,7 @@ import (
 
 	"github.com/rlarkin212/wumpdump/api/routes/alter"
 	"github.com/rlarkin212/wumpdump/api/routes/create"
+	"github.com/rlarkin212/wumpdump/api/routes/delete"
 	"github.com/rlarkin212/wumpdump/api/routes/drop"
 	"github.com/rlarkin212/wumpdump/api/routes/health"
 	"github.com/rlarkin212/wumpdump/api/routes/insert"
@@ -19,6 +20,7 @@ func RegisterRoutes(router *gin.Engine, bot *discord.Bot) {
 
 func register(rg *gin.RouterGroup, bot *discord.Bot) {
 	insert := insert.New(bot)
+	delete := delete.New(bot)
 	health := health.New()
 
 	tables := tables.New(bot)
@@ -28,6 +30,8 @@ func register(rg *gin.RouterGroup, bot *discord.Bot) {
 
 	//!data routes
 	rg.POST("/insert/:id", insert.Insert)
+	rg.DELETE("/delete/:id/:m", delete.Delete)
+	rg.DELETE("/bulkdelete/:id", delete.BulkDelete)
 	rg.GET("/health", health.Health)
 
 	//!table routes

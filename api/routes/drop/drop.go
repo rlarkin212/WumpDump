@@ -1,6 +1,7 @@
 package drop
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -23,6 +24,8 @@ func (h *dropHandler) Drop(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "supply channel id",
 		})
+
+		return
 	}
 
 	channel, err := h.bot.Discord.ChannelDelete(channelId)
@@ -30,11 +33,11 @@ func (h *dropHandler) Drop(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"id":    channel.ID,
-		"table": channel.Name,
-		"state": "deleted",
+		"dropped": fmt.Sprintf("%s - %s", channelId, channel.Name),
 	})
 }

@@ -24,6 +24,8 @@ func (h *insertHandler) Insert(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "supply channel id",
 		})
+
+		return
 	}
 
 	body, err := io.ReadAll(c.Request.Body)
@@ -40,6 +42,8 @@ func (h *insertHandler) Insert(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{

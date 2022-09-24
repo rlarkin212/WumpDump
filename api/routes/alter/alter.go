@@ -25,6 +25,8 @@ func (h *alterHandler) Alter(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "supply channel id",
 		})
+
+		return
 	}
 
 	var input dto.Table
@@ -32,6 +34,8 @@ func (h *alterHandler) Alter(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	channel, err := h.bot.Discord.ChannelEdit(channelId, &discordgo.ChannelEdit{Name: input.Name})
@@ -39,6 +43,8 @@ func (h *alterHandler) Alter(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{

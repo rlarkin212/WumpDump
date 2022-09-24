@@ -30,6 +30,8 @@ func (h *tablesHandler) Tables(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
+
+		return
 	}
 
 	textChannels := glinq.Where(channels, func(x *discordgo.Channel) bool {
